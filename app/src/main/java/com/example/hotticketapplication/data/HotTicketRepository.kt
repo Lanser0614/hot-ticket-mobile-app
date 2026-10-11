@@ -15,6 +15,7 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
+import com.example.hotticketapplication.BuildConfig
 
 fun json(vararg fields: Pair<String, Any?>) = JSONObject().apply {
     fields.forEach { (key, value) -> put(key, value ?: JSONObject.NULL) }
@@ -30,7 +31,7 @@ class ApiException(val code: String, override val message: String) : Exception(m
 class SessionStore(context: Context) {
     private val prefs = context.getSharedPreferences("hot-ticket", Context.MODE_PRIVATE)
     var server: String
-        get() = prefs.getString("server", "") ?: ""
+        get() = prefs.getString("server", BuildConfig.API_BASE_URL) ?: BuildConfig.API_BASE_URL
         set(value) { prefs.edit().putString("server", value).apply() }
     var language: String
         get() = prefs.getString("language", "ru") ?: "ru"
